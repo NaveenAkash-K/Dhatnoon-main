@@ -177,7 +177,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         child: InkWell(
                           // onTap: () => Get.to(MapWala(latitude: 19.8064417, longitude: 72.7463952)),
                           onTap: () {
-                            Get.to(AudioPlayerPro(audioURL: "https://firebasestorage.googleapis.com/v0/b/dhatnoon-backend.appspot.com/o/tanmay_bhai_ka_luck.m4a?alt=media&token=1470f2d8-480d-44b0-abac-f833930c9443"));
+                            Get.to(AudioPlayerPro(
+                                audioURL:
+                                    "https://firebasestorage.googleapis.com/v0/b/dhatnoon-backend.appspot.com/o/tanmay_bhai_ka_luck.m4a?alt=media&token=1470f2d8-480d-44b0-abac-f833930c9443"));
                           },
                           child: const ListTile(
                             title: Text("Testing   "),

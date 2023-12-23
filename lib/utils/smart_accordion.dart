@@ -211,7 +211,8 @@ class _AccordionPageState extends State<AccordionPage> {
                   border: Border.all(color: Colors.black, width: 0.2),
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 12),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,13 +244,10 @@ class _AccordionPageState extends State<AccordionPage> {
                         label: const Text("View"),
                         icon: const Icon(Icons.remove_red_eye_outlined),
                         onPressed: () async {
-                          print("tap working");
-
                           firestore
                               .collection("Sessions")
                               .doc(document.id)
-                              .update(
-                              {'shouldSend': true});
+                              .update({'shouldSend': true});
                           /*
                           -> doc['send'] = true
 
@@ -260,8 +258,8 @@ class _AccordionPageState extends State<AccordionPage> {
                           -> doc['send'] = false
                            */
 
-                          if(document['isComplete'] == true){
-
+                          // if (document['isComplete'] == true) {
+                          if (true) {
                             if (document['mode'] == 'Live Geo Location') {
                               Get.to(MapWala(
                                 latitude: double.parse(document['latitude']),
@@ -272,7 +270,6 @@ class _AccordionPageState extends State<AccordionPage> {
                               Get.to(DisplayPictureScreen(
                                   imagePath: document['frontImgURL'],
                                   cameraMode: 'Front'));
-
                             }
                             if (document['mode'] == 'Back Camera Pic') {
                               Get.to(DisplayPictureScreen(
@@ -307,19 +304,18 @@ class _AccordionPageState extends State<AccordionPage> {
                             if (document['mode'] == 'Audio Live Streaming') {
                               Get.to(AudioRecieverStream());
                             }
-                            if (document['mode'] == '10 Second Audio Recording') {
-                              Get.to(
-                                  AudioPlayerPro(audioURL: document['audioURL']));
+                            if (document['mode'] ==
+                                '10 Second Audio Recording') {
+                              Get.to(AudioPlayerPro(
+                                  audioURL: document['audioURL']));
                             }
-                          }
-                          else{
+                          } else {
                             Get.defaultDialog(
-                              title: "Receiving data from ${document['ReceiverPhoneNo']}",
-                              content: const Text("Please open after some time")
-                            );
+                                title:
+                                    "Receiving data from ${document['ReceiverPhoneNo']}",
+                                content:
+                                    const Text("Please open after some time"));
                           }
-
-
                         },
                       ),
                     ),
@@ -480,7 +476,8 @@ class _AccordionPage1State extends State<AccordionPage1> {
                   border: Border.all(color: Colors.black, width: 0.2),
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 12),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -528,8 +525,8 @@ class _AccordionPage1State extends State<AccordionPage1> {
                                             .doc(document.id)
                                             .update({'status': 'Approved'});
 
-                                        if (document['shouldSend'] == true){
-
+                                        if (true) {
+                                          // if (document['shouldSend'] == true) {
                                           if (document['mode'] ==
                                               'Live Geo Location') {
                                             _determinePosition().then((value) {
@@ -538,9 +535,9 @@ class _AccordionPage1State extends State<AccordionPage1> {
                                                   .doc(document.id)
                                                   .update({
                                                 'latitude':
-                                                value.latitude.toString(),
+                                                    value.latitude.toString(),
                                                 'longitude':
-                                                value.longitude.toString(),
+                                                    value.longitude.toString(),
                                               });
                                             });
                                           }
@@ -548,168 +545,173 @@ class _AccordionPage1State extends State<AccordionPage1> {
                                               'Front Camera Pic') {
                                             Get.to(FrontCameraPic());
 
-                                            Future.delayed(const Duration(seconds: 4),
-                                                    () {
-                                                  XFile img = stateOfFrontCamPic
-                                                      .frontCameraPic.value;
+                                            Future.delayed(
+                                                const Duration(seconds: 4), () {
+                                              XFile img = stateOfFrontCamPic
+                                                  .frontCameraPic.value;
 
-                                                  final filename =
+                                              final filename =
                                                   path.basename(img.path);
-                                                  iofile.File imageFile =
+                                              iofile.File imageFile =
                                                   iofile.File(img.path);
-                                                  try {
-                                                    storage
-                                                        .ref(filename)
-                                                        .putFile(imageFile)
-                                                        .then((taskSnapshot) {
-                                                      storage
-                                                          .ref(filename)
-                                                          .getDownloadURL()
-                                                          .then((url) {
-                                                        firestore
-                                                            .collection("Sessions")
-                                                            .doc(document.id)
-                                                            .update(
-                                                            {'frontImgURL': url});
-
-                                                        // firestore
-                                                        //     .collection("Sessions")
-                                                        //     .doc(document.id)
-                                                        //     .update(
-                                                        //     {'isComplete': true});
-                                                      });
+                                              try {
+                                                storage
+                                                    .ref(filename)
+                                                    .putFile(imageFile)
+                                                    .then((taskSnapshot) {
+                                                  storage
+                                                      .ref(filename)
+                                                      .getDownloadURL()
+                                                      .then((url) {
+                                                    firestore
+                                                        .collection("Sessions")
+                                                        .doc(document.id)
+                                                        .update({
+                                                      'frontImgURL': url
                                                     });
-                                                  } on FirebaseException catch (error) {
-                                                    if (kDebugMode) {
-                                                      print(error);
-                                                    }
-                                                  }
-                                                  ;
+
+                                                    // firestore
+                                                    //     .collection("Sessions")
+                                                    //     .doc(document.id)
+                                                    //     .update(
+                                                    //     {'isComplete': true});
+                                                  });
                                                 });
+                                              } on FirebaseException catch (error) {
+                                                if (kDebugMode) {
+                                                  print(error);
+                                                }
+                                              }
+                                              ;
+                                            });
                                           }
 
                                           if (document['mode'] ==
                                               'Back Camera Pic') {
                                             Get.to(RearCameraPic());
 
-                                            Future.delayed(const Duration(seconds: 4),
-                                                    () {
-                                                  XFile img = stateOfBackCamPic
-                                                      .backCameraPic.value;
+                                            Future.delayed(
+                                                const Duration(seconds: 4), () {
+                                              XFile img = stateOfBackCamPic
+                                                  .backCameraPic.value;
 
-                                                  final filename =
+                                              final filename =
                                                   path.basename(img.path);
-                                                  iofile.File imageFile =
+                                              iofile.File imageFile =
                                                   iofile.File(img.path);
-                                                  try {
-                                                    storage
-                                                        .ref(filename)
-                                                        .putFile(imageFile)
-                                                        .then((taskSnapshot) {
-                                                      storage
-                                                          .ref(filename)
-                                                          .getDownloadURL()
-                                                          .then((url) {
-                                                        firestore
-                                                            .collection("Sessions")
-                                                            .doc(document.id)
-                                                            .update(
-                                                            {'backImgURL': url});
-                                                      });
+                                              try {
+                                                storage
+                                                    .ref(filename)
+                                                    .putFile(imageFile)
+                                                    .then((taskSnapshot) {
+                                                  storage
+                                                      .ref(filename)
+                                                      .getDownloadURL()
+                                                      .then((url) {
+                                                    firestore
+                                                        .collection("Sessions")
+                                                        .doc(document.id)
+                                                        .update({
+                                                      'backImgURL': url
                                                     });
-                                                  } on FirebaseException catch (error) {
-                                                    if (kDebugMode) {
-                                                      print(error);
-                                                    }
-                                                  }
-                                                  ;
+                                                  });
                                                 });
+                                              } on FirebaseException catch (error) {
+                                                if (kDebugMode) {
+                                                  print(error);
+                                                }
+                                              }
+                                              ;
+                                            });
                                           }
 
                                           if (document['mode'] ==
                                               'Front Camera 10 Second Video') {
-                                            Get.to(const FrontCameraRecording());
+                                            Get.to(
+                                                const FrontCameraRecording());
 
-                                            Future.delayed(const Duration(seconds: 14),
-                                                    () {
-                                                  XFile img = stateOfFrontCamRec
-                                                      .frontCameraRec.value;
+                                            Future.delayed(
+                                                const Duration(seconds: 14),
+                                                () {
+                                              XFile img = stateOfFrontCamRec
+                                                  .frontCameraRec.value;
 
-                                                  final filename =
+                                              final filename =
                                                   path.basename(img.path);
-                                                  iofile.File imageFile =
+                                              iofile.File imageFile =
                                                   iofile.File(img.path);
-                                                  try {
-                                                    storage
-                                                        .ref(filename)
-                                                        .putFile(
+                                              try {
+                                                storage
+                                                    .ref(filename)
+                                                    .putFile(
                                                         imageFile,
                                                         SettableMetadata(
                                                             contentType:
-                                                            'video/mp4'))
-                                                        .then((taskSnapshot) {
-                                                      storage
-                                                          .ref(filename)
-                                                          .getDownloadURL()
-                                                          .then((url) {
-                                                        firestore
-                                                            .collection("Sessions")
-                                                            .doc(document.id)
-                                                            .update({
-                                                          'frontVideoURL': url
-                                                        });
-                                                      });
+                                                                'video/mp4'))
+                                                    .then((taskSnapshot) {
+                                                  storage
+                                                      .ref(filename)
+                                                      .getDownloadURL()
+                                                      .then((url) {
+                                                    firestore
+                                                        .collection("Sessions")
+                                                        .doc(document.id)
+                                                        .update({
+                                                      'frontVideoURL': url
                                                     });
-                                                  } on FirebaseException catch (error) {
-                                                    if (kDebugMode) {
-                                                      print(error);
-                                                    }
-                                                  }
-                                                  ;
+                                                  });
                                                 });
+                                              } on FirebaseException catch (error) {
+                                                if (kDebugMode) {
+                                                  print(error);
+                                                }
+                                              }
+                                              ;
+                                            });
                                           }
 
                                           if (document['mode'] ==
                                               'Back Camera 10 Second Video') {
                                             Get.to(const RearCameraRecording());
 
-                                            Future.delayed(const Duration(seconds: 14),
-                                                    () {
-                                                  XFile img = stateOfBackCamRec
-                                                      .backCameraRec.value;
+                                            Future.delayed(
+                                                const Duration(seconds: 14),
+                                                () {
+                                              XFile img = stateOfBackCamRec
+                                                  .backCameraRec.value;
 
-                                                  final filename =
+                                              final filename =
                                                   path.basename(img.path);
-                                                  iofile.File imageFile =
+                                              iofile.File imageFile =
                                                   iofile.File(img.path);
-                                                  try {
-                                                    storage
-                                                        .ref(filename)
-                                                        .putFile(
+                                              try {
+                                                storage
+                                                    .ref(filename)
+                                                    .putFile(
                                                         imageFile,
                                                         SettableMetadata(
                                                             contentType:
-                                                            'video/mp4'))
-                                                        .then((taskSnapshot) {
-                                                      storage
-                                                          .ref(filename)
-                                                          .getDownloadURL()
-                                                          .then((url) {
-                                                        firestore
-                                                            .collection("Sessions")
-                                                            .doc(document.id)
-                                                            .update({
-                                                          'backVideoURL': url
-                                                        });
-                                                      });
+                                                                'video/mp4'))
+                                                    .then((taskSnapshot) {
+                                                  storage
+                                                      .ref(filename)
+                                                      .getDownloadURL()
+                                                      .then((url) {
+                                                    firestore
+                                                        .collection("Sessions")
+                                                        .doc(document.id)
+                                                        .update({
+                                                      'backVideoURL': url
                                                     });
-                                                  } on FirebaseException catch (error) {
-                                                    if (kDebugMode) {
-                                                      print(error);
-                                                    }
-                                                  }
-                                                  ;
+                                                  });
                                                 });
+                                              } on FirebaseException catch (error) {
+                                                if (kDebugMode) {
+                                                  print(error);
+                                                }
+                                              }
+                                              ;
+                                            });
                                           }
                                           if (document['mode'] ==
                                               'Front Camera Streaming') {
@@ -725,25 +727,26 @@ class _AccordionPage1State extends State<AccordionPage1> {
                                           }
                                           if (document['mode'] ==
                                               '10 Second Audio Recording') {
-                                            Get.to(AudioRecorder())?.then((path) {
+                                            Get.to(AudioRecorder())
+                                                ?.then((path) {
                                               print("From outside $path");
                                               iofile.File audiofile =
-                                              iofile.File(path);
+                                                  iofile.File(path);
 
                                               storage
                                                   .ref(document.id + ".m4a")
                                                   .putFile(
-                                                  audiofile,
-                                                  SettableMetadata(
-                                                    contentType:
-                                                    'audio/x-m4a',
-                                                    customMetadata: <String,
-                                                        String>{
-                                                      'file': 'audio'
-                                                    },
-                                                  ))
+                                                      audiofile,
+                                                      SettableMetadata(
+                                                        contentType:
+                                                            'audio/x-m4a',
+                                                        customMetadata: <String,
+                                                            String>{
+                                                          'file': 'audio'
+                                                        },
+                                                      ))
                                                   .then((TaskSnapshot
-                                              taskSnapshot) {
+                                                      taskSnapshot) {
                                                 if (taskSnapshot.state ==
                                                     TaskState.success) {
                                                   print(
@@ -756,7 +759,7 @@ class _AccordionPage1State extends State<AccordionPage1> {
                                                         .collection("Sessions")
                                                         .doc(document.id)
                                                         .update(
-                                                        {'audioURL': url});
+                                                            {'audioURL': url});
                                                   });
                                                 } else {
                                                   taskSnapshot.printError();
